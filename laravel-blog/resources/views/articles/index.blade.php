@@ -6,6 +6,19 @@
 <div class="max-w-7xl mx-auto px-4 py-8">
     <h1 class="text-3xl font-bold mb-8">📰 Tous les articles</h1>
 
+    {{-- Formulaire de filtre par catégorie --}}
+    <form method="GET" action="{{ route('articles.index') }}" class="mb-6 text-center">
+        <select name="category" onchange="this.form.submit()" class="border border-gray-300 p-2 rounded shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400">
+            <option value="">Toutes les catégories</option>
+            @foreach(\App\Models\Category::all() as $category)
+                <option value="{{ $category->slug }}" {{ request('category') === $category->slug ? 'selected' : '' }}>
+                    {{ $category->name }}
+                </option>
+            @endforeach
+        </select>
+    </form>
+
+    {{-- Liste des articles --}}
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-8">
         @foreach($articles as $article)
             <div class="bg-white rounded-2xl shadow p-6 hover:shadow-lg transition duration-300">

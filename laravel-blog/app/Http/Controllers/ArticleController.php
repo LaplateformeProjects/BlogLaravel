@@ -7,10 +7,18 @@ use Illuminate\Http\Request;
 
 class ArticleController extends Controller
 {
-    // Affiche la liste de tous les articles (page d'accueil)
-    public function index()
+    // Affiche la liste de tous les articles (page d'accueil) avec filtre par catégorie
+    public function index(Request $request)
     {
-        $articles = Article::orderBy('created_at', 'desc')->paginate(10);
+        $articles = Article::with('category')
+            ->when($request->category, function ($query, $slug) {
+                $query->whereHas('category', function ($q) use ($slug) {
+                    $q->where('slug', $slug);
+                });
+            })
+            ->latest()
+            ->paginate(6);
+
         return view('articles.index', compact('articles'));
     }
 
@@ -21,28 +29,25 @@ class ArticleController extends Controller
         return view('articles.show', compact('article'));
     }
 
+    // Recherche d’articles via une requête textuelle
     public function search(Request $request)
-{
-    $query = $request->input('query');
-    
-    // Rechercher dans les titres et le contenu des articles
-    $articles = Article::where('title', 'like', "%{$query}%")
-        ->orWhere('body', 'like', "%{$query}%")
-        ->orderBy('created_at', 'desc')
-        ->paginate(10);
+    {
+        $query = $request->input('query');
+        
+        $articles = Article::where('title', 'like', "%{$query}%")
+            ->orWhere('body', 'like', "%{$query}%")
+            ->orderBy('created_at', 'desc')
+            ->paginate(10);
 
-    return view('articles.index', compact('articles'));
-}
+        return view('articles.index', compact('articles'));
+    }
 
+    // Filtrage via URL par slug de catégorie (si besoin pour une page dédiée)
     public function filterByCategory($slug)
-{
-    // Trouver la catégorie par son slug
-    $category = \App\Models\Category::where('slug', $slug)->firstOrFail();
-    
-    // Récupérer les articles associés à cette catégorie
-    $articles = $category->articles()->orderBy('created_at', 'desc')->paginate(10);
+    {
+        $category = \App\Models\Category::where('slug', $slug)->firstOrFail();
+        $articles = $category->articles()->orderBy('created_at', 'desc')->paginate(10);
 
-    return view('category.show', compact('category', 'articles'));
-}
-
+        return view('category.show', compact('category', 'articles'));
+    }
 }
