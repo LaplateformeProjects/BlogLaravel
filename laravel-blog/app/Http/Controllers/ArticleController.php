@@ -10,7 +10,7 @@ class ArticleController extends Controller
     // Affiche la liste de tous les articles (page d'accueil)
     public function index()
     {
-        $articles = Article::orderBy('created_at', 'desc')->paginate(5);
+        $articles = Article::orderBy('created_at', 'desc')->paginate(10);
         return view('articles.index', compact('articles'));
     }
 
@@ -40,7 +40,7 @@ class ArticleController extends Controller
     $category = \App\Models\Category::where('slug', $slug)->firstOrFail();
     
     // Récupérer les articles associés à cette catégorie
-    $articles = $category->articles()->orderBy('created_at', 'desc')->paginate(5);
+    $articles = $category->articles()->orderBy('created_at', 'desc')->paginate(10);
 
     return view('category.show', compact('category', 'articles'));
 }

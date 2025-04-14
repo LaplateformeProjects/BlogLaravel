@@ -1,17 +1,24 @@
 @extends('layouts.app')
 
-@section('title', $article->title)
-
 @section('content')
-<div class="bg-white p-6 rounded shadow">
-    <h2 class="text-3xl font-bold mb-2">{{ $article->title }}</h2>
-    <p class="text-sm text-gray-500 mb-4">
-        Catégorie :
-        <a href="{{ route('category.show', $article->category->slug) }}" class="text-indigo-500 hover:underline">
-            {{ $article->category->name }}
-        </a>
-    </p>
-    <div class="prose">
+<div class="max-w-3xl mx-auto px-4 py-8">
+    {{-- Image principale --}}
+    @if($article->image)
+        <img src="{{ asset('storage/' . $article->image) }}"
+             alt="{{ $article->title }}"
+             class="w-full h-64 object-cover rounded-xl shadow mb-6">
+    @endif
+
+    {{-- Badge catégorie --}}
+    <span class="inline-block px-3 py-1 rounded-full text-xs font-bold text-white bg-indigo-500 mb-4">
+        {{ $article->category->name }}
+    </span>
+
+    {{-- Titre --}}
+    <h1 class="text-3xl font-bold text-gray-800 mb-4">{{ $article->title }}</h1>
+
+    {{-- Contenu --}}
+    <div class="text-gray-700 leading-relaxed space-y-4">
         {!! nl2br(e($article->body)) !!}
     </div>
 </div>

@@ -11,9 +11,12 @@ class CategoryController extends Controller
     public function show($slug)
     {
         $category = \App\Models\Category::where('slug', $slug)->firstOrFail();
-        $articles = $category->articles()->orderBy('created_at', 'desc')->paginate(5);
-
-        return view('category.show', compact('category', 'articles'));
-    }
+        $articles = $category->articles()->orderBy('created_at', 'desc')->paginate(10);
+    
+        // Récupérer toutes les catégories pour afficher le grid
+        $categories = \App\Models\Category::all();
+    
+        return view('category.show', compact('category', 'articles', 'categories'));
+    }    
 
 }
