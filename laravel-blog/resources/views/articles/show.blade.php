@@ -40,4 +40,44 @@
     </div>
 
 </div>
+
+@if(session('success'))
+    <div class="mb-4 text-green-600 font-semibold">
+        {{ session('success') }}
+    </div>
+@endif
+
+{{-- Section Commentaires --}}
+    <div class="mt-12 border-t pt-8">
+        <h2 class="text-2xl font-bold mb-4">Commentaires</h2>
+        
+        {{-- Liste des commentaires --}}
+        @forelse($article->comments as $comment)
+            <div class="mb-4 p-4 bg-gray-50 rounded shadow">
+                <p class="text-sm text-gray-700"><strong>{{ $comment->author ?? 'Anonyme' }} :</strong></p>
+                <p class="text-sm text-gray-600">{{ $comment->body }}</p>
+            </div>
+        @empty
+            <p class="text-gray-500">Aucun commentaire pour l’instant.</p>
+        @endforelse
+
+        {{-- Formulaire pour ajouter un commentaire --}}
+        <div class="mt-6">
+            <form action="{{ route('comments.store', $article->id) }}" method="POST" class="space-y-4">
+                @csrf
+                <div>
+                    <label for="author" class="block text-sm font-medium text-gray-700">Nom</label>
+                    <input id="author" name="author" type="text" class="mt-1 block w-full border-gray-300 rounded-md">
+                </div>
+                <div>
+                    <label for="body" class="block text-sm font-medium text-gray-700">Commentaire</label>
+                    <textarea id="body" name="body" rows="4" class="mt-1 block w-full border-gray-300 rounded-md"></textarea>
+                </div>
+                <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700">
+                    Envoyer
+                </button>
+            </form>
+        </div>
+    </div>
+
 @endsection

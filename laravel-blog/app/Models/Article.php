@@ -14,4 +14,11 @@ class Article extends Model
     {
         return $this->belongsTo(Category::class);
     }
+
+    // Ici, seuls les commentaires approuvés seront affichés
+    public function comments()
+    {
+        return $this->hasMany(Comment::class)->where('approved', true);
+    }
+
 }
