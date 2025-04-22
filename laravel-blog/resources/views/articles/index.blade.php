@@ -36,11 +36,19 @@
         @foreach($articles as $article)
             <div class="p-6 transition duration-300 bg-white shadow rounded-2xl hover:shadow-lg">
                 
-                {{-- Image de l’article --}} 
-                @if($article->image) 
-                    <img src="{{ asset('storage/' . $article->image) }}" alt="{{ $article->title }}"
-                         class="object-cover w-full h-40 mb-4 rounded-lg">
-                @endif
+            {{-- Image de l’article --}} 
+            @php
+                $imagePath = $article->image ? asset('storage/' . $article->image) : asset('images/placeholder.jpg');
+            @endphp
+
+            <div class="relative w-full mb-4 overflow-hidden rounded-xl aspect-[4/3] bg-gradient-to-br from-indigo-100 via-white to-purple-100 shadow-lg">
+                <img src="{{ $imagePath }}"
+                    alt="{{ $article->title }}"
+                    loading="lazy"
+                    class="object-cover w-full h-full transition duration-500 transform hover:scale-105 hover:brightness-110" />
+    
+                <div class="absolute inset-0 pointer-events-none rounded-xl ring-2 ring-indigo-300/20 group-hover:ring-indigo-500/40 animate-pulse"></div>
+            </div>
 
                 {{-- Badge de catégorie --}} 
                 <span class="inline-block px-3 py-1 mb-2 rounded-full text-xs font-semibold text-white
