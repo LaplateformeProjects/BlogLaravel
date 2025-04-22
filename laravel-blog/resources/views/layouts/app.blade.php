@@ -17,7 +17,11 @@
     <body class="font-sans antialiased">
     <nav class="bg-white shadow-md">
     <div class="flex items-center justify-between px-4 py-3 mx-auto max-w-7xl">
-        <a href="{{ url('/') }}" class="text-xl font-bold text-gray-800">< Mon Blog</a>
+        <a href="/" class="transition-transform duration-300 hover:scale-110 group">
+            <img src="{{ asset('storage/articles/logo.png') }}" 
+                alt="Logo" 
+                class="w-auto h-16 transition duration-500 ease-in-out group-hover:filter group-hover:hue-rotate-15 group-hover:saturate-150 group-hover:brightness-110">
+        </a>
 
         <!-- Menu burger -->
         <div class="sm:hidden">
