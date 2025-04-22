@@ -7,7 +7,9 @@
 
     {{-- Image de l’article --}}
     @php
-        $imagePath = $article->image ? asset('storage/' . $article->image) : asset('images/placeholder.jpg');
+        $imagePath = $article->image && file_exists(public_path('storage/' . $article->image))
+            ? asset('storage/' . $article->image)
+            : asset('storage/articles/placeholder.png');
     @endphp
 
     <div class="relative w-full mb-6 overflow-hidden shadow-lg rounded-2xl aspect-video bg-gradient-to-tr from-blue-50 via-white to-indigo-100">
@@ -15,6 +17,13 @@
             alt="{{ $article->title }}"
             loading="lazy"
             class="object-cover w-full h-full transition duration-500 transform hover:scale-105 hover:brightness-110" />
+
+        {{-- Overlay texte en cas d'image absente --}}
+        @if($imagePath === asset('storage/articles/placeholder.png'))
+            <div class="absolute inset-0 flex items-center justify-center text-lg font-semibold text-white bg-black bg-opacity-50 rounded-lg">
+                Image non disponible
+            </div>
+        @endif
 
         <div class="absolute inset-0 pointer-events-none rounded-2xl ring-2 ring-indigo-300/20 animate-pulse"></div>
     </div>
