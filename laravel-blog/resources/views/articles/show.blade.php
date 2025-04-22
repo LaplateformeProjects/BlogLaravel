@@ -7,22 +7,28 @@
 
     {{-- Image de l’article --}}
     @php
-        $imagePath = $article->image && file_exists(public_path('storage/' . $article->image))
-            ? asset('storage/' . $article->image)
-            : asset('storage/articles/placeholder.png');
+        $isPlaceholder = !$article->image || !file_exists(public_path('storage/' . $article->image));
+        $imagePath = $isPlaceholder
+            ? asset('storage/articles/placeholder.png')
+            : asset('storage/' . $article->image);
     @endphp
 
-    <div class="relative w-full mb-6 overflow-hidden shadow-lg rounded-2xl aspect-video bg-gradient-to-tr from-blue-50 via-white to-indigo-100">
+    <div class="relative w-full mb-6 overflow-hidden shadow-lg rounded-2xl aspect-video bg-gradient-to-tr from-blue-50 via-white to-indigo-100 group">
         <img src="{{ $imagePath }}"
             alt="{{ $article->title }}"
             loading="lazy"
-            class="object-cover w-full h-full transition duration-500 transform hover:scale-105 hover:brightness-110" />
+            class="object-cover w-full h-full transition duration-500 transform hover:scale-105 hover:brightness-110 {{ $isPlaceholder ? 'blur-sm brightness-90' : '' }}" />
 
-        {{-- Overlay texte en cas d'image absente --}}
-        @if($imagePath === asset('storage/articles/placeholder.png'))
-            <div class="absolute inset-0 flex items-center justify-center text-lg font-semibold text-white bg-black bg-opacity-50 rounded-lg">
-                Image non disponible
+        @if($isPlaceholder)
+            {{-- Overlay avec icône 📷 --}}
+            <div class="absolute inset-0 flex items-center justify-center text-3xl text-white bg-black bg-opacity-50 rounded-lg">
+                📷
             </div>
+
+            {{-- Label en bas à droite --}}
+            <span class="absolute bottom-2 right-2 px-2 py-0.5 text-[11px] bg-gray-800 text-white rounded-full opacity-80">
+                Image par défaut
+            </span>
         @endif
 
         <div class="absolute inset-0 pointer-events-none rounded-2xl ring-2 ring-indigo-300/20 animate-pulse"></div>
@@ -54,7 +60,6 @@
     <div class="prose max-w-none">
         {!! nl2br(e($article->body)) !!}
     </div>
-
 </div>
 
 @if(session('success'))
@@ -64,36 +69,36 @@
 @endif
 
 {{-- Section Commentaires --}}
-    <div class="pt-8 mt-12 border-t">
-        <h2 class="mb-4 text-2xl font-bold">Commentaires</h2>
-        
-        {{-- Liste des commentaires --}}
-        @forelse($article->comments as $comment)
-            <div class="p-4 mb-4 rounded shadow bg-gray-50">
-                <p class="text-sm text-gray-700"><strong>{{ $comment->author ?? 'Anonyme' }} :</strong></p>
-                <p class="text-sm text-gray-600">{{ $comment->body }}</p>
-            </div>
-        @empty
-            <p class="text-gray-500">Aucun commentaire pour l’instant.</p>
-        @endforelse
-
-        {{-- Formulaire pour ajouter un commentaire --}}
-        <div class="mt-6">
-            <form action="{{ route('comments.store', $article->id) }}" method="POST" class="space-y-4">
-                @csrf
-                <div>
-                    <label for="author" class="block text-sm font-medium text-gray-700">Nom</label>
-                    <input id="author" name="author" type="text" class="block w-full mt-1 border-gray-300 rounded-md">
-                </div>
-                <div>
-                    <label for="body" class="block text-sm font-medium text-gray-700">Commentaire</label>
-                    <textarea id="body" name="body" rows="4" class="block w-full mt-1 border-gray-300 rounded-md"></textarea>
-                </div>
-                <button type="submit" class="px-4 py-2 text-white bg-blue-600 rounded-md hover:bg-blue-700">
-                    Envoyer
-                </button>
-            </form>
+<div class="pt-8 mt-12 border-t">
+    <h2 class="mb-4 text-2xl font-bold">Commentaires</h2>
+    
+    {{-- Liste des commentaires --}}
+    @forelse($article->comments as $comment)
+        <div class="p-4 mb-4 rounded shadow bg-gray-50">
+            <p class="text-sm text-gray-700"><strong>{{ $comment->author ?? 'Anonyme' }} :</strong></p>
+            <p class="text-sm text-gray-600">{{ $comment->body }}</p>
         </div>
+    @empty
+        <p class="text-gray-500">Aucun commentaire pour l’instant.</p>
+    @endforelse
+
+    {{-- Formulaire pour ajouter un commentaire --}}
+    <div class="mt-6">
+        <form action="{{ route('comments.store', $article->id) }}" method="POST" class="space-y-4">
+            @csrf
+            <div>
+                <label for="author" class="block text-sm font-medium text-gray-700">Nom</label>
+                <input id="author" name="author" type="text" class="block w-full mt-1 border-gray-300 rounded-md">
+            </div>
+            <div>
+                <label for="body" class="block text-sm font-medium text-gray-700">Commentaire</label>
+                <textarea id="body" name="body" rows="4" class="block w-full mt-1 border-gray-300 rounded-md"></textarea>
+            </div>
+            <button type="submit" class="px-4 py-2 text-white bg-blue-600 rounded-md hover:bg-blue-700">
+                Envoyer
+            </button>
+        </form>
     </div>
+</div>
 
 @endsection
