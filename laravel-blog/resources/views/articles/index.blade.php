@@ -104,7 +104,8 @@
 {{-- Bouton de retour en haut --}}
 <div class="fixed z-50 group bottom-6 right-6">
     <button id="scrollToTopBtn"
-        class="hidden p-3 text-white transition duration-300 transform bg-white rounded-full shadow-lg hover:bg-gray-400 hover:-translate-y-1"
+        class="hidden p-3 text-white transition-all duration-300 transform bg-white rounded-full shadow-lg
+               hover:scale-110 hover:shadow-[0_0_15px_4px_rgba(99,102,241,0.4)] animate-pulse"
         aria-label="Retour en haut">
         ⬆️
     </button>
@@ -131,5 +132,6 @@
         window.scrollTo({ top: 0, behavior: 'smooth' });
     });
 </script>
+
 
 @endsection
