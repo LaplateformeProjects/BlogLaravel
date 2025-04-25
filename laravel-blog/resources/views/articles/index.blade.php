@@ -6,6 +6,13 @@
 <div class="px-4 py-8 mx-auto max-w-7xl">
     <h1 class="mb-8 text-3xl font-bold">📰 Tous les articles</h1>
 
+    @auth        
+        <a href="{{ route('articles.create') }}"
+            class="px-4 py-2 text-white bg-blue-500 rounded hover:bg-blue-700">
+            + Ajouter son article
+        </a>   
+    @endauth
+
     {{-- Formulaire de filtre par catégorie --}}
     <form method="GET" action="{{ route('articles.index') }}" class="mb-6 text-center">
         <div class="relative inline-block w-full sm:w-80 group">

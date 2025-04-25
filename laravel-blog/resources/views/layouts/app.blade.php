@@ -44,6 +44,13 @@
                     <a href="{{ route('admin.articles.index') }}" class="text-gray-700 hover:text-blue-600">Admin</a>
                 @endif
                 <span class="text-gray-600">Bonjour, {{ Auth::user()->name }}</span>
+
+                <!-- Nouveau lien pour les auteurs -->
+                <a href="{{ route('articles.create') }}"
+                    class="text-green-600 hover:text-green-800">
+                    Créer un article
+                </a>
+
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf
                     <button type="submit" class="text-red-600 hover:underline">Déconnexion</button>
@@ -62,6 +69,13 @@
                 <a href="{{ route('admin.articles.index') }}" class="block text-gray-700 hover:text-blue-600">Admin</a>
             @endif
             <div class="text-gray-600">Bonjour, {{ Auth::user()->name }}</div>
+
+            <!-- Nouveau lien mobile -->
+            <a href="{{ route('articles.create') }}"
+                class="block text-green-600 hover:text-green-800">
+                Créer un article
+            </a>
+
             <form method="POST" action="{{ route('logout') }}">
                 @csrf
                 <button type="submit" class="text-red-600 hover:underline">Déconnexion</button>

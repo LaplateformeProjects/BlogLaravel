@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Article;
 use Illuminate\Http\Request;
+use App\Models\Category;
+use Illuminate\Support\Str;
+
 
 class ArticleController extends Controller
 {
@@ -50,4 +53,40 @@ class ArticleController extends Controller
 
         return view('category.show', compact('category', 'articles'));
     }
+
+    // Afficher le formulaire
+    public function create()
+    {
+        $categories = Category::all();
+
+        return view('articles.create', compact('categories'));
+    }
+
+    // Stocker l’article rédigé par l’utilisateur
+    public function store(Request $request)
+    {
+        $validated = $request->validate([
+            'title'       => 'required|string|max:255',
+            'slug'        => 'required|unique:articles,slug',
+            'body'        => 'required',
+            'category_id' => 'required|exists:categories,id',
+            'image'       => 'nullable|image|max:2048',
+        ]);
+
+    // Upload de l’image si fourni
+    if ($request->hasFile('image')) {
+        $validated['image'] = $request->file('image')->store('articles', 'public');
+    }
+
+    // Affecte l’auteur connecté
+    $validated['user_id'] = auth()->id();
+
+    // Création de l’article
+    Article::create($validated);
+
+    return redirect()
+        ->route('articles.index')
+        ->with('success', 'Votre article a bien été publié.');
+    }
+
 }

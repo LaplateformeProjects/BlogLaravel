@@ -14,7 +14,7 @@ class DashboardController extends Controller
     {
         // Comptes généraux
         $articlesCount = Article::count();
-        $pendingComments = Comment::where('is_approved', false)->count();
+        $pendingComments = Comment::where('approved', false)->count();
         $userCount = User::count();
 
         // Mois pour les graphiques
