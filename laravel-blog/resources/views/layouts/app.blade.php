@@ -118,7 +118,7 @@
             <a href="{{ route('cgu') }}" class="text-sm text-gray-700 hover:text-blue-600">Conditions générales</a>
             <a href="{{ route('confidentiality') }}" class="text-sm text-gray-700 hover:text-blue-600">Confidentialité</a>
             <a href="{{ route('contact') }}" class="text-sm text-gray-700 hover:text-blue-600">Contact</a>
-            <a href="{{ route('about') }}" class="text-sm text-gray-700 hover:text-blue-600">À propos</a>
+            <a href="{{ route('about') }}" class="text-sm text-gray-700 hover:text-blue-600">À propos de moi</a>
         </div>
     </div>
 </footer>
