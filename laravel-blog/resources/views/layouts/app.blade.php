@@ -105,5 +105,23 @@
             </main>
 
         </div>
+        <footer class="bg-white shadow-md">
+    <div class="flex flex-col items-center justify-between px-4 py-6 mx-auto space-y-4 text-center sm:flex-row sm:space-y-0 max-w-7xl">
+        <div class="flex items-center space-x-2">
+            <img src="{{ asset('storage/articles/logo.png') }}" 
+                alt="Logo Footer" 
+                class="w-auto h-12 transition duration-500 ease-in-out hover:scale-110">
+            <span class="text-sm text-gray-600">&copy; {{ date('Y') }} {{ config('app.name') }}. Tous droits réservés.</span>
+        </div>
+
+        <div class="flex space-x-6">
+            <a href="{{ route('cgu') }}" class="text-sm text-gray-700 hover:text-blue-600">Conditions générales</a>
+            <a href="{{ route('confidentiality') }}" class="text-sm text-gray-700 hover:text-blue-600">Confidentialité</a>
+            <a href="{{ route('contact') }}" class="text-sm text-gray-700 hover:text-blue-600">Contact</a>
+            <a href="{{ route('about') }}" class="text-sm text-gray-700 hover:text-blue-600">À propos</a>
+        </div>
+    </div>
+</footer>
+
     </body>
 </html>

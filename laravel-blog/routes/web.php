@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CommentController;
+use App\Http\Controllers\ContactController;
 use App\Http\Controllers\AdminArticleController;
 use App\Http\Controllers\AdminCommentController;
 use App\Http\Controllers\DashboardController;
@@ -50,6 +51,16 @@ Route::middleware(['auth', 'is_admin'])
     Route::put('/comments/{comment}/approve', [AdminCommentController::class, 'approve'])->name('comments.approve');
     Route::delete('/comments/{comment}', [AdminCommentController::class, 'destroy'])->name('comments.destroy');
 });
+
+// Pages statiques 
+Route::view('/cgu', 'cgu')->name('cgu');
+Route::view('/about', 'about')->name('about');
+Route::view('/confidentiality', 'confidentiality')->name('confidentiality');
+
+// Route pour afficher le formulaire de contact
+Route::get('/contact', [ContactController::class, 'show'])->name('contact');
+// Route pour envoyer le formulaire de contact
+Route::post('/contact', [ContactController::class, 'send'])->name('contact.send');
 
 // Inclusion des routes d'authentification (login, register, etc.) générées par Breeze
 require __DIR__.'/auth.php';
