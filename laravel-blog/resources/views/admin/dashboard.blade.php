@@ -4,12 +4,14 @@
 
 @section('content')
     <div class="space-y-6">
-        <h1 class="text-3xl font-bold text-blue-700 dark:text-blue-400">Tableau de bord</h1>
+        <div class="p-6 mt-6 text-center bg-white rounded-lg shadow dark:bg-gray-800">
+            <h1 class="text-3xl italic font-bold text-gray-700">- Tableau de bord -</h1>
+        </div>
 
         <div class="grid grid-cols-1 gap-6 md:grid-cols-3">
             <!-- Articles -->
-            <div class="p-6 bg-white rounded-lg shadow dark:bg-gray-800">
-                <h2 class="text-lg font-semibold text-gray-700 dark:text-gray-300">Articles publiés</h2>
+            <div class="p-6 mt-6 bg-white rounded-lg shadow dark:bg-gray-800">
+                <h2 class="text-lg font-semibold text-gray-700 dark:text-gray-300">Nb total d'articles publiés</h2>
                 <p class="mt-2 text-3xl font-bold text-blue-600 dark:text-blue-400">
                     {{ $articlesCount }}
                 </p>
@@ -17,38 +19,56 @@
 
             <!-- Graphique des articles -->
             <div class="p-6 mt-6 bg-white rounded-lg shadow dark:bg-gray-800">
-                <h2 class="mb-4 text-xl font-semibold text-gray-800 dark:text-gray-200">Articles publiés par mois</h2>
+                <h2 class="mb-4 text-lg font-semibold text-gray-800 dark:text-gray-200">Nb d'articles publiés / mois</h2>
                 <canvas id="articlesChart" height="120"></canvas>
+            </div><br/>
+
+            <!-- Utilisateurs -->
+            <div class="p-6 mt-6 bg-white rounded-lg shadow dark:bg-gray-800">
+                <h2 class="text-lg font-semibold text-gray-700 dark:text-gray-300">Nb total d'utilisateurs enregistrés</h2>
+                <p class="mt-2 text-3xl font-bold text-green-500 dark:text-green-400">
+                    {{ $userCount }}
+                </p>
+            </div>
+
+            <!-- Graphique des utilisateurs -->
+            <div class="p-6 mt-6 bg-white rounded-lg shadow dark:bg-gray-800">
+                <h2 class="mb-4 text-lg font-semibold text-gray-800 dark:text-gray-200">Nb d'utilisateurs enregistrés / mois</h2>
+                <canvas id="usersChart" height="120"></canvas>
+            </div><br/>
+
+            <!-- Articles en attente -->
+            <div class="p-6 bg-white rounded-lg shadow dark:bg-gray-800">
+                <h2 class="text-lg font-semibold text-gray-700 dark:text-gray-300">Articles à modérer</h2>
+                <p class="mt-2 text-3xl font-bold text-yellow-500 dark:text-yellow-400">
+                    {{ $pendingArticles }}
+                </p>
             </div>
 
             <!-- Commentaires en attente -->
             <div class="p-6 bg-white rounded-lg shadow dark:bg-gray-800">
-                <h2 class="text-lg font-semibold text-gray-700 dark:text-gray-300">Commentaires en attente</h2>
+                <h2 class="text-lg font-semibold text-gray-700 dark:text-gray-300">Commentaires à modérer</h2>
                 <p class="mt-2 text-3xl font-bold text-yellow-500 dark:text-yellow-400">
                     {{ $pendingComments }}
-                </p>
-            </div>
-
-            <!-- Utilisateurs -->
-            <div class="p-6 bg-white rounded-lg shadow dark:bg-gray-800">
-                <h2 class="text-lg font-semibold text-gray-700 dark:text-gray-300">Utilisateurs enregistrés</h2>
-                <p class="mt-2 text-3xl font-bold text-green-500 dark:text-green-400">
-                    {{ $userCount }}
                 </p>
             </div>
         </div>
 
         <!-- Actions rapides -->
         <div class="p-6 bg-white rounded-lg shadow dark:bg-gray-800">
-            <h2 class="mb-4 text-xl font-semibold text-gray-800 dark:text-gray-200">Actions rapides</h2>
+            <h2 class="mb-4 text-xl font-semibold text-gray-800 dark:text-gray-200">🛠️ Actions rapides</h2>
             <div class="flex flex-col space-y-4 sm:flex-row sm:space-x-4 sm:space-y-0">
                 <a href="{{ route('admin.articles.create') }}"
                    class="px-4 py-2 text-white transition bg-blue-600 rounded hover:bg-blue-700">
                     ✍️ Nouvel article
                 </a>
+                <a href="{{ route('admin.articles.moderation') }}"
+                   class="px-4 py-2 text-white transition bg-yellow-500 rounded hover:bg-yellow-600">
+                   🕵️ Modérer articles
+                </a>
                 <a href="{{ route('admin.comments.index') }}"
                    class="px-4 py-2 text-white transition bg-yellow-500 rounded hover:bg-yellow-600">
-                    🛠️ Modérer commentaires
+                   🕵️ Modérer commentaires
                 </a>
             </div>
         </div>
@@ -79,8 +99,8 @@
             <!-- Ajout d'une catégorie -->
             <form action="{{ route('admin.categories.store') }}" method="POST" class="flex items-center space-x-4">
                 @csrf
-                <input type="text" name="name" placeholder="Nouvelle catégorie" class="px-3 py-2 border border-gray-300 rounded" required>
-                <button type="submit" class="px-4 py-2 text-white bg-green-600 rounded hover:bg-green-700">
+                <input type="text" name="name" placeholder="Nouvelle catégorie" class="px-3 py-2 mb-2 border border-gray-300 rounded" required>
+                <button type="submit" class="px-4 py-2 mb-2 text-white bg-green-600 rounded hover:bg-green-700">
                     ➕ Ajouter
                 </button>
             </form>
@@ -116,7 +136,7 @@
         </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
     const ctx = document.getElementById('articlesChart').getContext('2d');
     new Chart(ctx, {
@@ -137,6 +157,34 @@
                     beginAtZero: true,
                     ticks: {
                         precision:0
+                    }
+                }
+            }
+        }
+    });
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    const usersCtx = document.getElementById('usersChart').getContext('2d');
+    new Chart(usersCtx, {
+        type: 'bar',
+        data: {
+            labels: {!! json_encode($months) !!},
+            datasets: [{
+                label: "Utilisateurs enregistrés",
+                data: {!! json_encode($usersPerMonth) !!},
+                backgroundColor: 'rgba(16, 185, 129, 0.7)', // green-500
+                borderRadius: 6
+            }]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    ticks: {
+                        precision: 0
                     }
                 }
             }
@@ -177,13 +225,13 @@
 </script>
 
 <script>
-    // Cacher automatiquement les messages flash après 4 secondes(4000)
+    // Cacher automatiquement les messages flash après 6 secondes(6000)
     setTimeout(() => {
         document.querySelectorAll('.flash-message').forEach(el => {
             el.classList.add('transition', 'opacity-0', 'duration-700');
             setTimeout(() => el.remove(), 700); // Supprime l'élément après la transition
         });
-    }, 4000);
+    }, 6000);
 </script>
 
 <!-- Modal de confirmation -->

@@ -19,7 +19,12 @@ class Article extends Model
         'category_id',
         'user_id',
         'image',
+        'approved',
     ];
+
+    protected $casts = [
+        'approved' => 'boolean',
+    ];    
 
     // L'auteur de l'article
     public function user(): BelongsTo

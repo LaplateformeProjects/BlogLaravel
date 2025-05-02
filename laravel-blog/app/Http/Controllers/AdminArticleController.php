@@ -42,6 +42,19 @@ class AdminArticleController extends Controller
         return redirect()->route('admin.articles.index')->with('success', 'Article créé avec succès.');
     }
 
+    public function moderation()
+    {
+        $articles = Article::where('approved', false)->latest()->get();
+        return view('admin.articles.moderation', compact('articles'));
+    }
+
+    // Approuver un nouvel article
+    public function approve(Article $article)
+    {
+        $article->update(['approved' => true]);
+        return back()->with('success', 'Article approuvé.');
+    }
+
     // Afficher le formulaire d’édition
     public function edit(Article $article)
     {

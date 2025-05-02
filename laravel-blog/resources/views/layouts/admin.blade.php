@@ -35,19 +35,19 @@
             <div class="items-center hidden space-x-4 sm:flex">
                 @auth
                     @if(Auth::user()->is_admin ?? false)
-                        <a href="{{ route('admin.articles.index') }}" class="text-gray-700 hover:text-blue-600">Admin</a>
+                        <a href="{{ route('admin.dashboard') }}" class="text-blue-500 hover:text-blue-800 hover:underline">Dashboard-Admin</a>
                     @endif
-                    <span class="text-gray-600">Bonjour, {{ Auth::user()->name }}</span>
+                    <span class="font-semibold text-gray-600">Bonjour, {{ Auth::user()->name }}</span>
 
                     <!-- Nouveau lien pour les auteurs -->
                     <a href="{{ route('articles.create') }}"
-                       class="text-green-600 hover:text-green-800">
+                       class="text-green-500 hover:text-green-800 hover:underline">
                         Créer un article
                     </a>
 
                     <form method="POST" action="{{ route('logout') }}">
                         @csrf
-                        <button type="submit" class="text-red-600 hover:underline">Déconnexion</button>
+                        <button type="submit" class="text-red-500 hover:text-red-800 hover:underline">Déconnexion</button>
                     </form>
                 @else
                     <a href="{{ route('login') }}" class="text-blue-600 hover:underline">Connexion</a>
@@ -89,6 +89,9 @@
                 <ul class="space-y-2">
                     <li>
                         <a href="{{ route('admin.articles.index') }}" class="block px-4 py-2 rounded hover:bg-gray-300">Gérer les articles</a>
+                    </li>
+                    <li>
+                        <a href="{{ route('admin.articles.moderation') }}" class="block px-4 py-2 rounded hover:bg-gray-300">Modérer les articles</a>
                     </li>
                     <li>
                         <a href="{{ route('admin.comments.index') }}" class="block px-4 py-2 rounded hover:bg-gray-300">Modérer les commentaires</a>

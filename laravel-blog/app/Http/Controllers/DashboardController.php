@@ -14,6 +14,7 @@ class DashboardController extends Controller
     {
         // Comptes généraux
         $articlesCount = Article::count();
+        $pendingArticles = Article::where('approved', false)->count();
         $pendingComments = Comment::where('approved', false)->count();
         $userCount = User::count();
 
@@ -27,13 +28,20 @@ class DashboardController extends Controller
             return Article::whereMonth('created_at', $month)->count();
         });
 
+        // Utilisateurs enregistrés par mois
+        $usersPerMonth = collect(range(1, 12))->map(function ($month) {
+            return User::whereMonth('created_at', $month)->count();
+        });
+
         // Retourner la vue avec les données nécessaires
         return view('admin.dashboard', compact(
             'articlesCount',
+            'pendingArticles',
             'pendingComments',
             'userCount',
             'months',
-            'articlesPerMonth'
+            'articlesPerMonth',
+            'usersPerMonth'
         ));
     }
 }
