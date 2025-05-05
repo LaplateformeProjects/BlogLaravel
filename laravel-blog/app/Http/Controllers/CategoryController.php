@@ -13,14 +13,14 @@ class CategoryController extends Controller
     {
         $category = Category::where('slug', $slug)->firstOrFail();
 
-        // Récupération des articles avec leur catégorie
+        // Récupération des articles avec leur catégorie, triés du plus récent au plus ancien
         $articles = $category->articles()
             ->with('category')
             ->orderByDesc('created_at')
             ->paginate(10);
 
-        // Toutes les catégories pour affichage dans la vue
-        $categories = Category::all();
+        // Toutes les catégories pour affichage dans la vue, triées par nom ascendant
+        $categories = Category::ordered()->get();
 
         return view('category.show', compact('category', 'articles', 'categories'));
     }
@@ -56,6 +56,7 @@ class CategoryController extends Controller
             ->with('deleted', 'Catégorie supprimée avec succès.');
     }
 
+    // Mise à jour depuis le dashboard admin
     public function update(Request $request, Category $category)
     {
         $request->validate([
@@ -66,7 +67,6 @@ class CategoryController extends Controller
             'name' => $request->name,
         ]);
 
-    return redirect()->route('admin.categories.index')->with('success', 'La catégorie a été mise à jour avec succès.');
+        return redirect()->route('admin.categories.index')->with('success', 'La catégorie a été mise à jour avec succès.');
     }
-
 }

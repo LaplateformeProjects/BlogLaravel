@@ -41,23 +41,23 @@
         <div class="items-center hidden space-x-4 sm:flex">
             @auth
                 @if(Auth::user()->is_admin ?? false)
-                    <a href="{{ route('admin.articles.index') }}" class="text-gray-700 hover:text-blue-600">Admin</a>
+                    <a href="{{ route('admin.articles.index') }}" class="text-green-500 hover:text-green-800 hover:underline">Retour Dashboard</a>
                 @endif
-                <span class="text-gray-600">Bonjour, {{ Auth::user()->name }}</span>
+                <span class="font-semibold text-gray-600">Bonjour, {{ Auth::user()->name }}</span>
 
                 <!-- Nouveau lien pour les auteurs -->
                 <a href="{{ route('articles.create') }}"
-                    class="text-green-600 hover:text-green-800">
+                    class="text-blue-500 hover:text-blue-800 hover:underline">
                     Créer un article
                 </a>
 
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf
-                    <button type="submit" class="text-red-600 hover:underline">Déconnexion</button>
+                    <button type="submit" class="text-red-500 hover:text-red-800 hover:underline">Déconnexion</button>
                 </form>
             @else
-                <a href="{{ route('login') }}" class="text-blue-600 hover:underline">Connexion</a>
-                <a href="{{ route('register') }}" class="text-blue-600 hover:underline">Inscription</a>
+                <a href="{{ route('login') }}" class="text-blue-500 hover:text-blue-800 hover:underline">Connexion</a>
+                <a href="{{ route('register') }}" class="text-blue-500 hover:text-blue-800 hover:underline">Inscription</a>
             @endauth
         </div>
     </div>
@@ -66,28 +66,28 @@
     <div class="px-4 pt-2 pb-4 space-y-2 sm:hidden" x-show="open" x-data="{ open: false }" style="display: none;">
         @auth
             @if(Auth::user()->is_admin ?? false)
-                <a href="{{ route('admin.articles.index') }}" class="block text-gray-700 hover:text-blue-600">Admin</a>
+                <a href="{{ route('admin.articles.index') }}" class="block text-green-500 hover:text-green-800">Retour Dashboard</a>
             @endif
-            <div class="text-gray-600">Bonjour, {{ Auth::user()->name }}</div>
+            <div class="font-semibold text-gray-600">Bonjour, {{ Auth::user()->name }}</div>
 
             <!-- Nouveau lien mobile -->
             <a href="{{ route('articles.create') }}"
-                class="block text-green-600 hover:text-green-800">
+                class="block text-blue-500 hover:text-blue-800">
                 Créer un article
             </a>
 
             <form method="POST" action="{{ route('logout') }}">
                 @csrf
-                <button type="submit" class="text-red-600 hover:underline">Déconnexion</button>
+                <button type="submit" class="text-red-500 hover:text-red-800">Déconnexion</button>
             </form>
         @else
-            <a href="{{ route('login') }}" class="block text-blue-600 hover:underline">Connexion</a>
-            <a href="{{ route('register') }}" class="block text-blue-600 hover:underline">Inscription</a>
+            <a href="{{ route('login') }}" class="block text-blue-500 hover:text-blue-800">Connexion</a>
+            <a href="{{ route('register') }}" class="block text-blue-500 hover:text-blue-800">Inscription</a>
         @endauth
     </div>
 </nav>
 
-        <div class="min-h-screen bg-gray-100">
+        <div class="min-h-screen bg-gray-200">
            {{-- @include('layouts.navigation') --}}
 
             <!-- Page Heading -->
