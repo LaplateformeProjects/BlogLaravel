@@ -7,20 +7,29 @@ use Illuminate\Http\Request;
 use App\Models\Category;
 use Illuminate\Support\Str;
 
-
 class ArticleController extends Controller
 {
     // Affiche la liste de tous les articles (page d'accueil) avec filtre par catégorie
     public function index(Request $request)
     {
-        $articles = Article::with('category')
-            ->when($request->category, function ($query, $slug) {
-                $query->whereHas('category', function ($q) use ($slug) {
-                    $q->where('slug', $slug);
-                });
-            })
-            ->latest()
-            ->paginate(6);
+        $query = Article::query()
+            ->join('categories', 'articles.category_id', '=', 'categories.id')
+            ->select('articles.*')
+            ->with('category')
+            ->orderByRaw("
+                CASE categories.slug
+                    WHEN 'sante' THEN 1
+                    WHEN 'voyage' THEN 2
+                    WHEN 'technologie' THEN 3
+                    ELSE 4
+                END
+            ");
+
+        if ($request->filled('category')) {
+            $query->where('categories.slug', $request->category);
+        }
+
+        $articles = $query->paginate(6);
 
         return view('articles.index', compact('articles'));
     }
@@ -36,7 +45,7 @@ class ArticleController extends Controller
     public function search(Request $request)
     {
         $query = $request->input('query');
-        
+
         $articles = Article::where('title', 'like', "%{$query}%")
             ->orWhere('body', 'like', "%{$query}%")
             ->orderBy('created_at', 'desc')
@@ -48,8 +57,15 @@ class ArticleController extends Controller
     // Filtrage via URL par slug de catégorie (si besoin pour une page dédiée)
     public function filterByCategory($slug)
     {
-        $category = \App\Models\Category::where('slug', $slug)->firstOrFail();
-        $articles = $category->articles()->orderBy('created_at', 'desc')->paginate(10);
+        $category = Category::where('slug', $slug)->firstOrFail();
+
+        $articles = Article::query()
+            ->join('categories', 'articles.category_id', '=', 'categories.id')
+            ->where('categories.slug', $slug)
+            ->orderByRaw("FIELD(categories.slug, 'sante', 'technologie', 'voyage')")
+            ->select('articles.*')
+            ->with('category')
+            ->paginate(10);
 
         return view('category.show', compact('category', 'articles'));
     }
@@ -73,20 +89,19 @@ class ArticleController extends Controller
             'image'       => 'nullable|image|max:2048',
         ]);
 
-    // Upload de l’image si fourni
-    if ($request->hasFile('image')) {
-        $validated['image'] = $request->file('image')->store('articles', 'public');
+        // Upload de l’image si fourni
+        if ($request->hasFile('image')) {
+            $validated['image'] = $request->file('image')->store('articles', 'public');
+        }
+
+        // Affecte l’auteur connecté
+        $validated['user_id'] = auth()->id();
+
+        // Création de l’article
+        Article::create($validated);
+
+        return redirect()
+            ->route('articles.index')
+            ->with('success', 'Votre article a bien été publié.');
     }
-
-    // Affecte l’auteur connecté
-    $validated['user_id'] = auth()->id();
-
-    // Création de l’article
-    Article::create($validated);
-
-    return redirect()
-        ->route('articles.index')
-        ->with('success', 'Votre article a bien été publié.');
-    }
-
 }
