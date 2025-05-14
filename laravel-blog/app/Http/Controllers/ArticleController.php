@@ -18,9 +18,9 @@ class ArticleController extends Controller
             ->with('category')
             ->orderByRaw("
                 CASE categories.slug
-                    WHEN 'sante' THEN 1
-                    WHEN 'voyage' THEN 2
-                    WHEN 'technologie' THEN 3
+                    WHEN 'voyage' THEN 1
+                    WHEN 'technologie' THEN 2
+                    WHEN 'sante' THEN 3
                     ELSE 4
                 END
             ");
@@ -29,7 +29,7 @@ class ArticleController extends Controller
             $query->where('categories.slug', $request->category);
         }
 
-        $articles = $query->paginate(6);
+        $articles = $query->paginate(9);
 
         return view('articles.index', compact('articles'));
     }

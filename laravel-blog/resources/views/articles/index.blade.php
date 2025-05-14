@@ -3,13 +3,19 @@
 @section('title', 'Accueil')
 
 @section('content')
-<div class="px-4 py-8 mx-auto max-w-7xl">
-    <h1 class="mb-8 text-3xl font-bold">📰 Tous les articles</h1>
+<div class="px-4 py-1 mx-auto max-w-7xl">
+    <h1 class="relative flex items-center gap-3 mb-8 text-2xl italic font-bold text-blue-700">
+        Le Blog de Sophie
+        <span class="relative flex w-10 h-10">
+            <span class="absolute inset-0 z-0 rounded-full animate-color-pulse"></span>
+            <img src="storage/articles/ampoule (1).png" alt="Lire" class="relative z-10 w-10 h-8 " />
+        </span>
+    </h1>
 
     @auth        
         <a href="{{ route('articles.create') }}"
             class="px-4 py-2 text-white bg-blue-500 rounded hover:bg-blue-700">
-            + Ajouter son article
+            + Ajouter votre article
         </a>   
     @endauth
 
