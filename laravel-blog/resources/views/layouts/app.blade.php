@@ -15,7 +15,7 @@
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
     <body class="font-sans antialiased">
-    <nav class="bg-white shadow-md">
+    <nav class="fixed inset-x-0 top-0 z-50 bg-white shadow-md">
     <div class="flex items-center justify-between px-4 py-3 mx-auto max-w-7xl">
         <a href="/" class="transition-transform duration-300 hover:scale-110 group">
             <img src="{{ asset('storage/articles/logo.png') }}" 
@@ -87,7 +87,7 @@
     </div>
 </nav>
 
-        <div class="min-h-screen bg-gray-200">
+        <div class="min-h-screen pt-24 bg-gray-200">
            {{-- @include('layouts.navigation') --}}
 
             <!-- Page Heading -->

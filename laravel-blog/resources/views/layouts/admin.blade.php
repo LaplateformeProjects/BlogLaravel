@@ -9,7 +9,7 @@
 </head>
 <body class="text-gray-900 bg-gray-200">
     <!-- Navbar héritée de layouts/app.blade.php -->
-    <nav class="bg-white shadow-md" x-data="{ open: false }">
+    <nav class="fixed inset-x-0 top-0 z-50 bg-white shadow-md" x-data="{ open: false }">
         <div class="flex items-center justify-between px-4 py-3 mx-auto max-w-7xl">
             <a href="/" class="transition-transform duration-300 hover:scale-110 group">
                 <img src="{{ asset('storage/articles/logo.png') }}" 
@@ -81,20 +81,23 @@
         </div>
     </nav>
 
-    <div class="flex flex-col min-h-screen">
+    <div class="flex flex-col min-h-screen pt-24">
         <!-- Contenu principal Admin -->
         <div class="flex flex-1">
             <!-- Sidebar (facultatif) -->
             <aside class="hidden w-64 p-4 bg-gray-300 md:block">
                 <ul class="space-y-2">
                     <li>
-                        <a href="{{ route('admin.articles.index') }}" class="block px-4 py-2 rounded hover:bg-gray-300">Gérer les articles</a>
+                        <a href="{{ route('admin.articles.create') }}" class="block px-4 py-2 text-gray-800 rounded hover:text-gray-400">Ajouter un article</a>
                     </li>
                     <li>
-                        <a href="{{ route('admin.articles.moderation') }}" class="block px-4 py-2 rounded hover:bg-gray-300">Modérer les articles</a>
+                        <a href="{{ route('admin.articles.index') }}" class="block px-4 py-2 text-gray-800 rounded hover:text-gray-400">Gérer les articles</a>
                     </li>
                     <li>
-                        <a href="{{ route('admin.comments.index') }}" class="block px-4 py-2 rounded hover:bg-gray-300">Modérer les commentaires</a>
+                        <a href="{{ route('admin.articles.moderation') }}" class="block px-4 py-2 text-gray-800 rounded hover:text-gray-400">Modérer les articles</a>
+                    </li>
+                    <li>
+                        <a href="{{ route('admin.comments.index') }}" class="block px-4 py-2 text-gray-800 rounded hover:text-gray-400">Modérer les commentaires</a>
                     </li>
                 </ul>
             </aside>

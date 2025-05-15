@@ -5,7 +5,7 @@
 @section('content')
 <div class="max-w-6xl px-4 py-10 mx-auto">
     <div class="flex items-center justify-between mb-6">
-        <h1 class="text-2xl font-bold">Articles</h1>
+        <h1 class="text-2xl font-bold">Gestion des articles</h1>
         <a href="{{ route('admin.articles.create') }}" class="px-4 py-2 text-white bg-blue-600 rounded hover:bg-blue-700">
             + Nouvel Article
         </a>
@@ -24,7 +24,9 @@
                     <th class="px-4 py-2 text-left">Titre</th>
                     <th class="px-4 py-2 text-left">Catégorie</th>
                     <th class="px-4 py-2 text-left">Publié le</th>
+                    <th class="px-4 py-2 text-left">Auteur</th>
                     <th class="px-4 py-2 text-center">Actions</th>
+                    <th class="px-4 py-2 text-left">Modifié le</th>
                 </tr>
             </thead>
             <tbody>
@@ -32,15 +34,17 @@
                     <tr class="border-t">
                         <td class="px-4 py-2">{{ $article->title }}</td>
                         <td class="px-4 py-2">{{ $article->category->name }}</td>
-                        <td class="px-4 py-2">{{ $article->created_at->format('d/m/Y') }}</td>
-                        <td class="px-4 py-2 space-x-2 text-right">
-                            <a href="{{ route('admin.articles.edit', $article) }}" class="text-blue-600 hover:underline">Éditer</a>
+                        <td class="px-4 py-2">{{ $article->created_at->format('d/m/Y H:i') }}</td>
+                        <td class="px-4 py-2">{{ $article->user->name ?? 'Auteur inconnu' }}</td>
+                        <td class="px-4 py-2 space-x-2 text-center">
+                            <a href="{{ route('admin.articles.edit', $article) }}" class="text-blue-600 hover:underline">Modifier</a>
                             <form action="{{ route('admin.articles.destroy', $article) }}" method="POST" class="inline-block" onsubmit="return confirm('Confirmer la suppression ?')">
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit" class="text-red-600 hover:underline">Supprimer</button>
                             </form>
                         </td>
+                        <td class="px-4 py-2">{{ $article->updated_at->format('d/m/Y H:i') }}</td>
                     </tr>
                 @endforeach
             </tbody>

@@ -3,7 +3,7 @@
 @section('title', $article->title)
 
 @section('content')
-<div class="max-w-4xl px-4 py-8 mx-auto">
+<div class="max-w-4xl px-4 mx-auto">
 
     {{-- Image de l’article --}}
     @php
