@@ -14,10 +14,12 @@ class DashboardController extends Controller
     public function index()
     {
         // Comptes généraux
+        $users = User::all();
+        $userCount = User::count();
         $articlesCount = Article::count();
         $pendingArticles = Article::where('approved', false)->count();
         $pendingComments = Comment::where('approved', false)->count();
-        $userCount = User::count();
+        $users = User::where('is_admin', 0)->orderBy('created_at', 'desc')->get();
 
         // Mois pour les graphiques
         $months = collect(range(1, 12))->map(function ($month) {
@@ -46,7 +48,8 @@ class DashboardController extends Controller
             'months',
             'articlesPerMonth',
             'categories',
-            'usersPerMonth'
+            'usersPerMonth',
+            'users'
         ));
     }
 }

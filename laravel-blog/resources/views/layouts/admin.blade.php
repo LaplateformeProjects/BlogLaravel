@@ -98,6 +98,9 @@
                     </li>
                     <li>
                         <a href="{{ route('admin.comments.index') }}" class="block px-4 py-2 text-gray-800 rounded hover:text-gray-400">Modérer les commentaires</a>
+                    </li></br>
+                    <li>
+                        <a href="{{ route('admin.articles.create') }}" class="block px-4 py-2 text-gray-800 rounded hover:text-gray-400">Modifier mon profil</a>
                     </li>
                 </ul>
             </aside>

@@ -10,71 +10,86 @@
 
         <div class="grid grid-cols-1 gap-6 md:grid-cols-3">
             <!-- Articles -->
-            <div class="p-6 mt-6 text-center bg-white rounded-lg shadow dark:bg-gray-800">
-                <h2 class="text-lg font-semibold text-gray-800 dark:text-gray-300">Nb total d'articles publiés</h2>
+            <div class="p-6 mt-1 text-center bg-white rounded-lg shadow dark:bg-gray-800">
+                <h2 class="text-lg font-semibold text-gray-800 dark:text-gray-300">Nb total d'articles publiés</h2></br>
                 <p class="mt-2 text-4xl font-bold text-blue-600 dark:text-blue-400">
                     {{ $articlesCount }}
+                </p></br></br></br></br>
+                <h2 class="text-lg font-semibold text-gray-800 dark:text-gray-300">Articles à modérer</h2></br>
+                <p class="mt-2 text-4xl font-bold text-orange-400 dark:text-orange-300">
+                    {{ $pendingArticles }}
                 </p>
             </div>
 
             <!-- Graphique des articles -->
-            <div class="p-6 mt-6 text-center bg-white rounded-lg shadow dark:bg-gray-800">
+            <div class="p-6 mt-1 text-center bg-white rounded-lg shadow dark:bg-gray-800">
                 <h2 class="mb-4 text-lg font-semibold text-gray-800 dark:text-gray-300">Nb d'articles publiés / mois</h2>
                 <canvas id="articlesChart" height="280"></canvas>
             </div>
 
            <!-- Type d'articles -->
-            <div class="p-6 mt-6 text-center bg-white rounded-lg shadow dark:bg-gray-800">
+            <div class="p-6 mt-1 text-center bg-white rounded-lg shadow dark:bg-gray-800">
                 <h2 class="mb-4 text-lg font-semibold text-gray-800 dark:text-gray-300">Répartition des articles / catégorie</h2>
                 <canvas id="categoriesChart" height="120"></canvas>
             </div>
 
-            <!-- Utilisateurs -->
-            <div class="p-6 mt-6 text-center bg-white rounded-lg shadow dark:bg-gray-800">
-                <h2 class="text-lg font-semibold text-gray-800 dark:text-gray-300">Nb total d'utilisateurs enregistrés</h2>
+            <!-- Utilisateurs et commentaires -->
+            <div class="p-6 mt-1 text-center bg-white rounded-lg shadow dark:bg-gray-800">
+                <h2 class="text-lg font-semibold text-gray-800 dark:text-gray-300">Nb total d'utilisateurs enregistrés</h2></br>
                 <p class="mt-2 text-4xl font-bold text-green-500 dark:text-green-400">
                     {{ $userCount }}
+                </p></br></br></br></br>
+                <h2 class="text-lg font-semibold text-gray-800 dark:text-gray-300">Commentaires à modérer</h2></br>
+                <p class="mt-2 text-4xl font-bold text-orange-400 dark:text-orange-300">
+                    {{ $pendingComments }}
                 </p>
             </div>
 
             <!-- Graphique des utilisateurs -->
-            <div class="p-6 mt-6 text-center bg-white rounded-lg shadow dark:bg-gray-800">
+            <div class="p-6 mt-1 text-center bg-white rounded-lg shadow dark:bg-gray-800">
                 <h2 class="mb-4 text-lg font-semibold text-gray-800 dark:text-gray-300">Nb d'utilisateurs enregistrés / mois</h2>
                 <canvas id="usersChart" height="280"></canvas>
             </div>
 
             <!-- Taux d'acquisition en utilisateurs -->
-            <div class="p-6 mt-6 text-center bg-white rounded-lg shadow dark:bg-gray-800">
+            <div class="p-6 mt-1 text-center bg-white rounded-lg shadow dark:bg-gray-800">
                 <h2 class="mb-4 text-lg font-semibold text-gray-800 dark:text-gray-300">Taux d'acquisition utilisateurs</h2>
                 <canvas id="progressionRateChart" height="280"></canvas>
-            </div>
-
-            <!-- Articles en attente -->
-            <div class="p-6 text-center bg-white rounded-lg shadow dark:bg-gray-800">
-                <h2 class="text-lg font-semibold text-gray-800 dark:text-gray-300">Articles à modérer</h2>
-                <p class="mt-2 text-4xl font-bold text-blue-600 dark:text-blue-400">
-                    {{ $pendingArticles }}
-                </p>
-            </div>
-
-            <!-- Commentaires en attente -->
-            <div class="p-6 text-center bg-white rounded-lg shadow dark:bg-gray-800">
-                <h2 class="text-lg font-semibold text-gray-800 dark:text-gray-300">Commentaires à modérer</h2>
-                <p class="mt-2 text-4xl font-bold text-orange-400 dark:text-orange-300">
-                    {{ $pendingComments }}
-                </p>
             </div>
         </div>
 
         <!-- Liste des utilisateurs -->
-        <div class="p-6 bg-white rounded-lg shadow dark:bg-gray-800">
-            <h2 class="text-lg font-semibold text-gray-800 dark:text-gray-300">Liste des utilisateurs</h2>
-            
+        <div class="p-6 mt-1 bg-white rounded-lg shadow dark:bg-gray-800">
+            <h2 class="mb-4 text-lg font-semibold text-gray-800 dark:text-gray-300">Liste des utilisateurs</h2>
+            <div class="overflow-x-auto">
+                <table class="min-w-full divide-y divide-gray-200">
+                    <thead class="bg-gray-200">
+                        <tr>
+                            <th class="px-6 py-3 text-sm font-medium text-left text-gray-700 uppercase">Nom</th>
+                            <th class="px-6 py-3 text-sm font-medium text-left text-gray-700 uppercase">Email</th>
+                            <th class="px-6 py-3 text-sm font-medium text-left text-gray-700 uppercase">Inscrit le</th>
+                        </tr>
+                    </thead>
+                    <tbody class="bg-white divide-y divide-gray-200">
+                        @forelse ($users as $user)
+                            <tr class="hover:bg-gray-100">
+                                <td class="px-6 py-4 text-sm text-gray-900">{{ $user->name }}</td>
+                                <td class="px-6 py-4 text-sm text-gray-600">{{ $user->email }}</td>
+                                <td class="px-6 py-4 text-sm text-gray-500">{{ $user->created_at->format('d/m/Y H:i') }}</td>
+                            </tr>
+                        @empty
+                            <tr>
+                                <td colspan="3" class="px-6 py-4 text-sm text-center text-gray-500">Aucun utilisateur trouvé.</td>
+                            </tr>
+                        @endforelse
+                    </tbody>
+                </table>
+            </div>
         </div>
 
         <!-- Gestion des catégories -->
-        <div class="p-6 mt-6 bg-white rounded-lg shadow dark:bg-gray-800">
-            <h2 class="mb-4 text-xl font-semibold text-gray-800 dark:text-gray-300">Gestion des catégories</h2>
+        <div class="p-6 mt-1 bg-white rounded-lg shadow dark:bg-gray-800">
+            <h2 class="mb-4 text-lg font-semibold text-gray-800 dark:text-gray-300">Gestion des catégories</h2>
 
             <!-- Feedback visuel (succès ou erreur) -->
             @if (session('success'))
@@ -98,8 +113,8 @@
             <!-- Ajout d'une catégorie -->
             <form action="{{ route('admin.categories.store') }}" method="POST" class="flex items-center space-x-4">
                 @csrf
-                <input type="text" name="name" placeholder="Nouvelle catégorie" class="px-3 py-2 mb-2 border border-gray-300 rounded" required>
-                <button type="submit" class="px-4 py-2 mb-2 text-white bg-green-600 rounded hover:bg-green-700">
+                <input type="text" name="name" placeholder="Nouvelle catégorie" class="px-4 py-2 mb-4 border border-gray-300 rounded" required>
+                <button type="submit" class="px-3 py-1 mb-4 text-white bg-green-600 rounded hover:bg-green-800">
                     + Ajouter
                 </button>
             </form>
