@@ -43,12 +43,12 @@
                 @if(Auth::user()->is_admin ?? false)
                     <a href="{{ route('admin.articles.index') }}" class="text-green-500 hover:text-green-800 hover:underline">Retour Dashboard</a>
                 @endif
+                
                 <span class="font-semibold text-gray-600">Bonjour, {{ Auth::user()->name }}</span>
 
                 <!-- Nouveau lien pour les auteurs -->
-                <a href="{{ route('articles.create') }}"
-                    class="text-blue-500 hover:text-blue-800 hover:underline">
-                    Créer un article
+                <a href="{{ route('profile.edit') }}" class="text-blue-500 hover:text-blue-800 hover:underline">
+                    Modifier mon profil
                 </a>
 
                 <form method="POST" action="{{ route('logout') }}">
@@ -100,7 +100,7 @@
             @endisset
 
             <!-- Page Content -->
-            <main class="px-4 py-10">
+            <main class="px-4 py-6">
                 @yield('content')
             </main>
 

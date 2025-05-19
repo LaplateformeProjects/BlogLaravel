@@ -82,33 +82,63 @@
     </nav>
 
     <div class="flex flex-col min-h-screen pt-24">
+
         <!-- Contenu principal Admin -->
         <div class="flex flex-1">
-            <!-- Sidebar (facultatif) -->
-            <aside class="hidden w-64 p-4 bg-gray-300 md:block">
-                <ul class="space-y-2">
-                    <li>
-                        <a href="{{ route('admin.articles.create') }}" class="block px-4 py-2 text-gray-800 rounded hover:text-gray-400">Ajouter un article</a>
-                    </li>
-                    <li>
-                        <a href="{{ route('admin.articles.index') }}" class="block px-4 py-2 text-gray-800 rounded hover:text-gray-400">Gérer les articles</a>
-                    </li>
-                    <li>
-                        <a href="{{ route('admin.articles.moderation') }}" class="block px-4 py-2 text-gray-800 rounded hover:text-gray-400">Modérer les articles</a>
-                    </li>
-                    <li>
-                        <a href="{{ route('admin.comments.index') }}" class="block px-4 py-2 text-gray-800 rounded hover:text-gray-400">Modérer les commentaires</a>
-                    </li></br>
-                    <li>
-                        <a href="{{ route('admin.articles.create') }}" class="block px-4 py-2 text-gray-800 rounded hover:text-gray-400">Modifier mon profil</a>
-                    </li>
-                </ul>
+            <!-- Sidebar modernisée -->
+            <aside class="hidden w-64 p-6 bg-white border-r border-gray-200 shadow-lg md:block">
+                <nav class="space-y-6">
+                    <!-- Groupe 1 : Gestion des articles -->
+                    <div>
+                        <h2 class="mb-2 text-xs font-bold tracking-wide text-gray-800 uppercase">Articles</h2>
+                        <ul class="space-y-2">
+                            <li>
+                                <a href="{{ route('admin.articles.create') }}" class="block px-4 py-2 text-gray-700 transition rounded-lg hover:bg-gray-100 hover:text-indigo-600">
+                                Ajouter un article
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{{ route('admin.articles.index') }}" class="block px-4 py-2 text-gray-700 transition rounded-lg hover:bg-gray-100 hover:text-indigo-600">
+                                Gérer les articles
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{{ route('admin.articles.moderation') }}" class="block px-4 py-2 text-gray-700 transition rounded-lg hover:bg-gray-100 hover:text-indigo-600">
+                                Modérer les articles
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    <!-- Groupe 2 : Commentaires -->
+                    <div>
+                        <h2 class="mb-2 text-xs font-bold tracking-wide text-gray-800 uppercase">Commentaires</h2>
+                        <ul class="space-y-2">
+                            <li>
+                                <a href="{{ route('admin.comments.index') }}" class="block px-4 py-2 text-gray-700 transition rounded-lg hover:bg-gray-100 hover:text-indigo-600">
+                                Modérer commentaires
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    <!-- Groupe 3 : Profil -->
+                    <div>
+                        <h2 class="mb-2 text-xs font-bold tracking-wide text-gray-800 uppercase">Profil</h2>
+                        <ul class="space-y-2">
+                            <li>
+                                <a href="{{ route('profile.edit') }}" class="block px-4 py-2 text-gray-700 transition rounded-lg hover:bg-gray-100 hover:text-indigo-600">
+                                Modifier mon profil
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </nav>
             </aside>
 
             <!-- Zone de contenu -->
             <main class="flex-1 p-4">
                 @yield('content')
             </main>
+
         </div>
 
         <!-- Pied de page hérité de layouts/app.blade.php -->

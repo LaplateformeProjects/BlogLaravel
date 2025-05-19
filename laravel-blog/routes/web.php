@@ -8,6 +8,7 @@ use App\Http\Controllers\ContactController;
 use App\Http\Controllers\AdminArticleController;
 use App\Http\Controllers\AdminCommentController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\ProfileController;
 
 // Routes pour la partie publique du blog
 Route::get('/', [ArticleController::class, 'index'])->name('articles.index');
@@ -63,6 +64,13 @@ Route::view('/confidentiality', 'confidentiality')->name('confidentiality');
 Route::get('/contact', [ContactController::class, 'show'])->name('contact');
 // Route pour envoyer le formulaire de contact
 Route::post('/contact', [ContactController::class, 'send'])->name('contact.send');
+
+// Afficher le formulaire de modification de profil
+Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+// Mettre à jour les infos de profil
+Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+// Supprimer le compte
+Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
 // Inclusion des routes d'authentification (login, register, etc.) générées par Breeze
 require __DIR__.'/auth.php';

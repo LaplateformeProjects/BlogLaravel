@@ -51,9 +51,9 @@
         {{ $article->title }}
     </h1>
 
-    {{-- Date --}}
+    {{-- Date et Auteur --}}
     <p class="mb-6 text-sm text-gray-500">
-        Publié le {{ $article->created_at->format('d M Y') }}
+        Publié le {{ $article->created_at->format('d M Y') }} - par {{ $article->user->name ?? 'Auteur inconnu' }}
     </p>
 
     {{-- Contenu --}}

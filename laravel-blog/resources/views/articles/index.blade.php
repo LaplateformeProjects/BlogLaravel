@@ -100,10 +100,11 @@
                     {{ Str::limit($article->body, 100) }}
                 </p>
 
-                {{-- Date --}} 
+                {{-- Date et Auteur --}} 
                 <p class="text-xs text-gray-500">
-                    Publié le {{ $article->created_at->format('d M Y') }}
+                    Publié le {{ $article->created_at->format('d M Y') }} - par {{ $article->user->name ?? 'Auteur inconnu' }}
                 </p>
+
             </div>
         @endforeach
     </div>
