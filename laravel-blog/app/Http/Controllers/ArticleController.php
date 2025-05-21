@@ -9,7 +9,7 @@ use Illuminate\Support\Str;
 
 class ArticleController extends Controller
 {
-    // Affiche la liste de tous les articles (page d'accueil) avec filtre par catégorie
+    // Affiche la liste de tous les articles (page d'accueil) avec filtre par catégorie et/ou mots clés
     public function index(Request $request)
     {
         $query = Article::query()
@@ -25,8 +25,20 @@ class ArticleController extends Controller
                 END
             ");
 
+        // Filtrage par catégories
         if ($request->filled('category')) {
             $query->where('categories.slug', $request->category);
+        }
+
+        // Filtrage par mots-clés
+        if ($request->filled('keywords')) {
+            $keywords = $request->keywords;
+
+            $query->where(function ($q) use ($keywords) {
+                $q->where('articles.title', 'like', "%{$keywords}%")
+                ->orWhere('articles.slug', 'like', "%{$keywords}%")
+                ->orWhere('articles.body', 'like', "%{$keywords}%");
+            });
         }
 
         $articles = $query->paginate(9);

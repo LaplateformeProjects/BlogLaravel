@@ -19,29 +19,76 @@
         </a>   
     @endauth
 
-    {{-- Formulaire de filtre par catégorie --}}
     <form method="GET" action="{{ route('articles.index') }}" class="mb-6 text-center">
-        <div class="relative inline-block w-full sm:w-80 group">
-            {{-- Menu déroulant stylé avec glow et fond animé --}}
-            <select name="category" onchange="this.form.submit()"
-                class="w-full px-4 py-3 pr-10 font-medium text-gray-700 transition-all duration-500 ease-in-out border-2 border-transparent shadow-lg appearance-none rounded-2xl focus:outline-none focus:ring-4 focus:ring-blue-400 hover:ring-2 hover:ring-indigo-300 bg-gradient-to-r from-white via-white to-white hover:from-blue-50 hover:via-indigo-50 hover:to-purple-50 focus:bg-gradient-to-r focus:from-indigo-100 focus:to-blue-100">
-                <option value="">Toutes les catégories</option>
-                @foreach(\App\Models\Category::all() as $category)
+        <div class="flex flex-col items-center justify-center gap-4 sm:flex-row">
+
+            {{-- Menu déroulant des catégories --}}
+            <div class="relative inline-block w-full sm:w-80 group">
+                <select name="category" onchange="this.form.submit()"
+                    class="w-full px-4 py-3 pr-12 font-medium text-gray-700 transition-all duration-200 ease-in-out border-0 border-transparent shadow-lg appearance-none rounded-2xl focus:outline-none hover:ring-4 hover:ring-white bg-gradient-to-r from-white via-white to-white hover:from-blue-50 hover:via-indigo-50 hover:to-purple-50 focus:bg-gradient-to-r focus:from-indigo-100 focus:to-blue-100">
+                    <option value="">Toutes les catégories</option>
+                    @foreach(\App\Models\Category::all() as $category)
                     <option value="{{ $category->slug }}" {{ request('category') === $category->slug ? 'selected' : '' }}>
                         {{ $category->name }}
                     </option>
-                @endforeach
-            </select>
+                    @endforeach
+                </select>
 
-            {{-- Chevron animé --}}
-            <div class="absolute inset-y-0 flex items-center text-gray-500 transition-transform duration-300 ease-in-out pointer-events-none right-3 group-focus-within:rotate-180">
-                <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none"
-                    viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
-                </svg>
+                {{-- Chevron animé --}}
+                <div class="absolute inset-y-0 right-0 flex items-center px-3 text-gray-500 transition-transform duration-300 ease-in-out pointer-events-none group-focus-within:rotate-180">
+                    <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none"
+                        viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+                    </svg>
+                </div>
             </div>
+
+            {{-- Champ de recherche par mots-clés --}}
+            <div class="relative w-full sm:w-80">
+                <input
+                    id="searchInput"
+                    type="text"
+                    name="keywords"
+                    placeholder="Rechercher par mots-clés..."
+                    value="{{ request('keywords') }}"
+                    class="w-full px-4 py-3 pr-12 font-medium text-gray-700 transition-all duration-200 ease-in-out bg-white border-0 border-transparent shadow-lg appearance-none rounded-2xl focus:outline-none hover:ring-4 hover:ring-white"
+                />
+
+                {{-- Bouton loupe cliquable --}}
+                <button id="searchButton" type="button"
+                    class="absolute inset-y-0 right-0 flex items-center px-3 text-gray-500 hover:text-gray-700 focus:outline-none">
+                    <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none"
+                        viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M21 21l-4.35-4.35m0 0A7.5 7.5 0 104.5 4.5a7.5 7.5 0 0012.15 12.15z" />
+                    </svg>
+                </button>
+            </div>    
         </div>
     </form>
+
+    <script>
+        const input = document.getElementById('searchInput');
+        const button = document.getElementById('searchButton');
+
+        function triggerSearch() {
+            const query = input.value.trim();
+            if (query) {
+                window.location.href = `?keywords=${encodeURIComponent(query)}`;
+            }
+        }
+
+        // Clic sur la loupe
+        button.addEventListener('click', triggerSearch);
+
+        // Appuie sur "Entrée"
+        input.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                triggerSearch();
+            }
+        });
+    </script>
 
     {{-- Liste des articles --}}
     <div class="grid grid-cols-1 gap-6 mt-8 sm:grid-cols-2 lg:grid-cols-3">

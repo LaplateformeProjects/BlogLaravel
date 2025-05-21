@@ -14,7 +14,7 @@ use App\Http\Controllers\ProfileController;
 Route::get('/', [ArticleController::class, 'index'])->name('articles.index');
 Route::get('/search', [ArticleController::class, 'search'])->name('articles.search');
 
-// ← Routes pour les auteurs authentifiés (hors admin)
+// Routes pour les auteurs authentifiés (hors admin)
 Route::middleware('auth')->group(function () {
     // Formulaire de création pour un auteur authentifié
     Route::get('/articles/create', [ArticleController::class, 'create'])
